@@ -1,0 +1,22 @@
+name: Build
+
+on:
+  pull_request: {}
+  push:
+    branches: [main, master]
+
+jobs:
+  build-linux:
+    strategy:
+      matrix:
+        system: [x86_64-linux, aarch64-linux]
+    runs-on: ${{ matrix.system == 'aarch64-linux' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@v16
+
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Build
+        run: nix build .#claude-desktop --no-link

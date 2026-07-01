@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Usage:
+#   ./update.sh          Update package.nix to the latest upstream release.
+#   ./update.sh --check  Only check whether an update is available (exit 1 if yes).
+
+check_only=false
+case "${1:-}" in
+  --check) check_only=true ;;
+  "") ;;
+  *) echo "Unknown option: $1" >&2; exit 1 ;;
+esac
+
 repo="https://downloads.claude.ai/claude-desktop/apt/stable"
 pkg="package.nix"
 
@@ -29,6 +40,17 @@ latest_field() {
 }
 
 version="$(latest_field amd64 Version)"
+
+if [ "$check_only" = true ]; then
+  current="$(sed -n 's/.*version = "\([^"]*\)".*/\1/p' "$pkg" | head -1)"
+  if [ "$current" = "$version" ]; then
+    echo "Already up to date: $current"
+    exit 0
+  fi
+  echo "Update available: $current -> $version"
+  exit 1
+fi
+
 amd64_file="$(latest_field amd64 Filename)"
 arm64_file="$(latest_field arm64 Filename)"
 amd64_sha="$(latest_field amd64 SHA256)"
