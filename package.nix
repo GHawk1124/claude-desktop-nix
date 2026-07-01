@@ -43,7 +43,6 @@
 , nodejs
 , nspr
 , nss
-, OVMF
 , pango
 , qemu
 , stdenv
@@ -172,8 +171,8 @@ stdenv.mkDerivation {
     find "$out/lib/claude-desktop/resources/app.asar.unpacked" -name '*.node' -exec chmod +x {} +
 
     mkdir -p "$out/share/OVMF" "$out/share/AAVMF"
-    ln -s "${OVMF.fd}/FV/OVMF_CODE.fd" "$out/share/OVMF/OVMF_CODE.fd"
-    ln -s "${OVMF.fd}/FV/OVMF_VARS.fd" "$out/share/OVMF/OVMF_VARS.fd"
+    ln -s "${qemu}/share/qemu/edk2-x86_64-code.fd" "$out/share/OVMF/OVMF_CODE.fd"
+    ln -s "${qemu}/share/qemu/edk2-i386-vars.fd" "$out/share/OVMF/OVMF_VARS.fd"
     ln -s "${qemu}/share/qemu/edk2-aarch64-code.fd" "$out/share/AAVMF/AAVMF_CODE.fd"
     ln -s "${qemu}/share/qemu/edk2-arm-vars.fd" "$out/share/AAVMF/AAVMF_VARS.fd"
 
@@ -215,7 +214,7 @@ EOF
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath runtimeLibs} \
       --set GSETTINGS_SCHEMA_DIR "$out/share/claude-desktop-gsettings-schemas" \
       --set-default DISABLE_AUTOUPDATER 1 \
-      --set-default OVMF_PATH "${OVMF.fd}/FV"
+      --set-default OVMF_PATH "$out/share/OVMF"
 
     runHook postInstall
   '';
