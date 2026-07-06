@@ -161,6 +161,13 @@ stdenv.mkDerivation {
       cp -R usr/share "$out/"
     fi
 
+    # Fix .desktop file to use absolute store paths so launchers find it
+    if [ -f "$out/share/applications/claude-desktop.desktop" ]; then
+      substituteInPlace "$out/share/applications/claude-desktop.desktop" \
+        --replace-fail "Exec=claude-desktop " "Exec=$out/bin/claude-desktop " \
+        --replace-fail "Icon=claude-desktop" "Icon=$out/share/icons/hicolor/256x256/apps/claude-desktop.png"
+    fi
+
     chmod +x "$out"/lib/claude-desktop/*.so* \
       "$out"/lib/claude-desktop/claude-desktop \
       "$out"/lib/claude-desktop/chrome_crashpad_handler \
