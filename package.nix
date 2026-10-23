@@ -55,7 +55,7 @@
 
 let
   pname = "claude-desktop";
-  version = "1.18286.0";
+  version = "3.6556.2";
 
   arch = {
     x86_64-linux = "amd64";
@@ -64,12 +64,12 @@ let
 
   srcs = {
     x86_64-linux = fetchurl {
-      url = "https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_1.18286.0_amd64.deb";
-      hash = "sha256-jzFK0agKq1JxGo6qvAaq5I+zQfCt6koNcmTbXKudBTY=";
+      url = "https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_3.6556.2_amd64.deb";
+      hash = "sha256-D27R8oRcMEGbhUWoMgZ210ZKGfYl4F4CkZI4qml47LQ=";
     };
     aarch64-linux = fetchurl {
-      url = "https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_1.18286.0_arm64.deb";
-      hash = "sha256-SCC5iankMzlWtsvq7icy3StJkE+6VAtHKWPIADyAhsc=";
+      url = "https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_3.6556.2_arm64.deb";
+      hash = "sha256-W3CutrszWz1GhO0QataMfaRP86pH/42y/v5VvegQwQs=";
     };
   };
 
